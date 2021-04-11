@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using SimpleTask.Models;
 
 namespace SimpleTask.Controllers
@@ -37,7 +38,7 @@ namespace SimpleTask.Controllers
 
         [HttpDelete]
         [Route("delete")]
-        public async Task<IActionResult> DeleteUser([FromQuery] Guid userId)
+        public async Task<IActionResult> DeleteUser([FromQuery][BindRequired] Guid userId)
         {
             var userDelete = await _dbCtx.Users.FindAsync(userId);
             if (userDelete == null)
@@ -52,7 +53,7 @@ namespace SimpleTask.Controllers
         
         [HttpGet]
         [Route("get")]
-        public async Task<IActionResult> GetUser([FromQuery] Guid userId)
+        public async Task<IActionResult> GetUser([FromQuery][BindRequired] Guid userId)
         {
             var user = await _dbCtx.Users.FindAsync(userId).AsTask();
             if (user == null)
@@ -60,6 +61,21 @@ namespace SimpleTask.Controllers
                 return NotFound();
             }
             return Ok(user);
+        }
+
+        [HttpGet]
+        [Route("listTasks")]
+        public IActionResult GetUserTasks([FromQuery][BindRequired] Guid userId)
+        {
+            var userTasks = _dbCtx.Users.Include(u => u.Tasks)
+                .SingleOrDefault(u => u.UserId == userId);
+
+            if (userTasks == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userTasks.Tasks);
         }
 
         [HttpGet]

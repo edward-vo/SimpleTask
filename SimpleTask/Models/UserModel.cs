@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SimpleTask.Models
 {
@@ -15,6 +16,7 @@ namespace SimpleTask.Models
         [Required]
         public string LastName { get; set; }
         
+        [JsonIgnore]
         public virtual List<TaskModel> Tasks { get; set; }
     }
 }

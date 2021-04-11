@@ -55,7 +55,7 @@ namespace SimpleTask.Controllers
 
         [HttpDelete]
         [Route("delete")]
-        public async Task<IActionResult> DeleteTask([FromQuery] Guid taskId)
+        public async Task<IActionResult> DeleteTask([FromQuery][BindRequired] Guid taskId)
         {
             var taskDelete = await _dbCtx.Tasks.FindAsync(taskId);
             if (taskDelete == null)
@@ -70,7 +70,7 @@ namespace SimpleTask.Controllers
         
         [HttpGet]
         [Route("get")]
-        public async Task<IActionResult> GetTask([FromQuery] Guid taskId)
+        public async Task<IActionResult> GetTask([FromQuery][BindRequired] Guid taskId)
         {
             var user = await _dbCtx.Tasks.FindAsync(taskId).AsTask();
             if (user == null)

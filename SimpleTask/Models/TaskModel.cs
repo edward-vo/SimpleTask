@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SimpleTask.Models
 {
@@ -12,6 +13,8 @@ namespace SimpleTask.Models
         public string TaskName { get; set; }
         
         public Guid AssignedUserId { get; set; }
-        public UserModel AssignedUser { get; set; }
+        
+        [JsonIgnore]
+        public virtual UserModel AssignedUser { get; set; }
     }
 }
