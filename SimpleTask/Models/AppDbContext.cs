@@ -12,5 +12,14 @@ namespace SimpleTask.Models
         public DbSet<UserModel> Users { get; set; }
  
         public DbSet<TaskModel> Tasks { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserModel>()
+                .HasMany(um => um.Tasks)
+                .WithOne(tm => tm.AssignedUser)
+                .HasForeignKey(tm => tm.AssignedUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
     }
 }

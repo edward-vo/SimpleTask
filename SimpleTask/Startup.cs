@@ -35,6 +35,12 @@ namespace SimpleTask
             });
             services.AddDbContext<AppDbContext>(opt => 
                 opt.UseInMemoryDatabase("simpleTaskDb"));
+            
+            services.AddApiVersioning(config =>
+            {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
